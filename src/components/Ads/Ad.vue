@@ -4,12 +4,12 @@
       <v-flex xs12>
         <v-card>
           <v-card-media
-                  src="https://cdn.vuetifyjs.com/images/carousel/planet.jpg"
+                  :src="ad.imageSrc"
                   height="300"
           ></v-card-media>
           <v-card-text>
-            <h1 class="text--primary">Lorem</h1>
-            <p>Lorem dmdmdmdmdm mdm m md m dm md mdm dm dm dm</p>
+            <h1 class="text--primary">{{ad.title}}</h1>
+            <p>{{ad.description}}</p>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -24,8 +24,14 @@
 
 <script>
   export default {
-    data () {
-      return {}
+    props: [
+      'id'
+    ],
+    computed: {
+      ad () {
+        let id = this.id
+        return this.$store.getters.adById(id)
+      }
     }
   }
 </script>

@@ -7,15 +7,15 @@
             <v-toolbar-title>Registration Form</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form v-model="valid" lazy-validation>
+            <v-form v-model="valid" ref="form" validation>
               <v-text-field prepend-icon="person" name="email" label="email" type="email" v-model="email" :rules="emailRules"></v-text-field>
-              <v-text-field id="password" prepend-icon="lock" name="password" label="Password" type="password" v-model="password"  counter="6" :rules="passwordRules"></v-text-field>
-              <v-text-field id="password" prepend-icon="lock" name="confirm-password" label="Confirm password" type="password" v-model="confirmPassword"  counter="6" :rules="confirmPasswordRules"></v-text-field>
+              <v-text-field prepend-icon="lock" label="Password" type="password" v-model="password"  counter="6" :rules="passwordRules"></v-text-field>
+              <v-text-field prepend-icon="lock" label="Confirm password" type="password" v-model="confirmPassword"  counter="6" :rules="confirmPasswordRules"></v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="onSubmit" :disabled="!valid">Create account</v-btn>
+            <v-btn color="primary" @click="onSubmit" :loading="loading" :disabled="!valid || loading">Create account</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -45,10 +45,23 @@
         ]
       }
     },
+    computed: {
+      loading () {
+        return this.$store.getters.loading
+      }
+    },
     methods: {
       onSubmit () {
         if (this.$refs.form.validate()) {
-          console.log('yes')
+          let user = {
+            email: this.email,
+            password: this.password
+          }
+          this.$store.dispatch('registerUser', user)
+            .then(() => {
+              this.$router.push('/')
+            })
+            .catch(() => {})
         }
       }
     }

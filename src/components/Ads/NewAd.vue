@@ -63,9 +63,10 @@
           let add = {
             title: this.title,
             description: this.description,
-            promo: this.promo
+            promo: this.promo,
+            imageSrc: 'https://proglib.io/wp-content/uploads/2018/07/1_qnI8K0Udjw4lciWDED4HGw.png'
           }
-          console.log(add)
+          this.$store.dispatch('createAd', add)
         }
       }
     }
